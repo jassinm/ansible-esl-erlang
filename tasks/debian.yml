@@ -1,0 +1,23 @@
+- name: install python-pycurl
+  apt: pkg={{ item }} state=latest
+  with_items:
+      - python-pycurl
+      - python-apt
+  sudo: yes
+- name: ensure erlang-solutions source in sources.list.d
+  apt_repository: repo='deb http://packages.erlang-solutions.com/debian precise contrib'
+                  state=present
+  sudo: yes
+- name: ensure erlang-solutions key in apt
+  apt_key: url='http://packages.erlang-solutions.com/debian/erlang_solutions.asc'
+  sudo: yes
+
+- name: update apt if needed
+  apt: update_cache=yes
+  sudo: yes
+
+- name: install es erlang
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+      - erlang
